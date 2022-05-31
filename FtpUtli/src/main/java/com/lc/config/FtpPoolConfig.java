@@ -74,7 +74,7 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
      */
     private int numTestsPerEvictionRun = 3;
 
-    public boolean isBlockWhenExhausted() {
+    public boolean getBlockWhenExhausted() {
         return blockWhenExhausted;
     }
 
@@ -123,7 +123,7 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
         this.minIdle = minIdle;
     }
 
-    public boolean isTestOnBorrow() {
+    public boolean getTestOnBorrow() {
         return testOnBorrow;
     }
 
@@ -132,7 +132,7 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
         this.testOnBorrow = testOnBorrow;
     }
 
-    public boolean isTestOnReturn() {
+    public boolean getTestOnReturn() {
         return testOnReturn;
     }
 
@@ -141,7 +141,7 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
         this.testOnReturn = testOnReturn;
     }
 
-    public boolean isTestOnCreate() {
+    public boolean getTestOnCreate() {
         return testOnCreate;
     }
 
@@ -150,7 +150,7 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
         this.testOnCreate = testOnCreate;
     }
 
-    public boolean isTestWhileIdle() {
+    public boolean getTestWhileIdle() {
         return testWhileIdle;
     }
 
@@ -197,24 +197,5 @@ public class FtpPoolConfig extends GenericObjectPoolConfig {
     @Override
     public void setNumTestsPerEvictionRun(int numTestsPerEvictionRun) {
         this.numTestsPerEvictionRun = numTestsPerEvictionRun;
-    }
-
-    @Override
-    public String toString() {
-        return "FtpPoolConfig{" +
-                "blockWhenExhausted=" + blockWhenExhausted +
-                ", maxWaitMillis=" + maxWaitMillis +
-                ", maxTotal=" + maxTotal +
-                ", maxIdle=" + maxIdle +
-                ", minIdle=" + minIdle +
-                ", testOnBorrow=" + testOnBorrow +
-                ", testOnReturn=" + testOnReturn +
-                ", testOnCreate=" + testOnCreate +
-                ", testWhileIdle=" + testWhileIdle +
-                ", minEvictableIdleTimeMillis=" + minEvictableIdleTimeMillis +
-                ", softMinEvictableIdleTimeMillis=" + softMinEvictableIdleTimeMillis +
-                ", timeBetweenEvictionRunsMillis=" + timeBetweenEvictionRunsMillis +
-                ", numTestsPerEvictionRun=" + numTestsPerEvictionRun +
-                '}';
     }
 }

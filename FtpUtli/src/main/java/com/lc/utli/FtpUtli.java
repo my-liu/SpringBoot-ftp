@@ -26,9 +26,9 @@ public class FtpUtli {
         try {
             isBaesPath(beanPath);
             isPath(path);
-            return ftpClient.changeWorkingDirectory(beanPath +"/"+ path);
+            return ftpClient.changeWorkingDirectory(beanPath + "/" + path);
         } catch (IOException e) {
-            throw new FtpException("FtpClients 连接异常:" + e.getMessage());
+            throw new FtpException("FtpClients 连接异常:" + e);
         }
     }
 
@@ -51,9 +51,9 @@ public class FtpUtli {
 
                 }
             }
-            return ftpClient.changeWorkingDirectory(beanPath+"/"+path);
+            return ftpClient.changeWorkingDirectory(beanPath + "/" + path);
         } catch (IOException e) {
-            throw new FtpException("FtpClients 连接异常:" + e.getMessage());
+            throw new FtpException("FtpClients 连接异常:" + e);
         }
     }
 
@@ -96,10 +96,38 @@ public class FtpUtli {
         if (null == fileName || "".equals(fileName)) {
             throw new FtpException("fileName参数错误");
         }
+        if (fileName.contains("\\")) {
+            throw new FtpException("参数含有非法字符'\\'");
+        }
+    }
+
+    /**
+     * 判断filePath是否合法
+     *
+     * @param filePath
+     */
+    public static void isFilePath(String filePath) {
+        if (null == filePath || "".equals(filePath)) {
+            throw new FtpException("filePath参数错误");
+        }
+        if (filePath.contains("\\")) {
+            throw new FtpException("参数含有非法字符'\\'");
+        }
+    }
+
+    /**
+     * 获取文件路径及文件名称
+     *
+     * @param site
+     */
+    public static String[] getFilePathName(String site) {
+        int i = site.lastIndexOf("/");
+        return new String[]{site.substring(site.indexOf("/"), i), site.substring(i+1)};
     }
 
     /**
      * 关闭流
+     *
      * @param inputStream
      */
     public static void disconnect(InputStream inputStream) {

@@ -1,7 +1,7 @@
 package com.lc.ftp;
 
-import com.lc.config.FtpConfig;
 import com.lc.config.FtpPoolConfig;
+import com.lc.exception.FtpException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 
@@ -23,8 +23,12 @@ public class FtpClientPool {
     }
 
 
-    public FtpClients getFtpClients() throws Exception {
-        return new FtpClients(this.basePath, pool.borrowObject(), this);
+    public FtpClients getFtpClients() {
+        try {
+            return new FtpClients(this.basePath, pool.borrowObject(), this);
+        } catch (Exception e) {
+            throw new FtpException("获取Ftp连接异常：" + e);
+        }
     }
 
     public void returnObject(FTPClient ftpClient) {

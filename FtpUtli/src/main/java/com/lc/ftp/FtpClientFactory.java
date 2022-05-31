@@ -29,9 +29,7 @@ public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
         FTPClient ftpClient = new FTPClient();
         ftpClient.setConnectTimeout(ftpConfig.getConnectTimeOut());
         try {
-
             ftpClient.connect(ftpConfig.getHost(), ftpConfig.getPort());
-
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpClient.disconnect();
@@ -50,7 +48,7 @@ public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
                 ftpClient.enterLocalPassiveMode();//进入被动模式
             }
         } catch (IOException e) {
-            throw new FtpPoolException("FtpClients 连接异常:" + e.getMessage());
+            throw new FtpPoolException("FtpClients 连接异常:" + e);
         }
         return ftpClient;
     }

@@ -7,10 +7,22 @@ package com.lc.config;
  */
 public class FtpConfig {
 
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    /**
+     * 文件服务浏览域名
+     */
+    private String domain;
     /**
      * Ftp连接地址
      */
-    private String host;
+    private String host="34.125.19.134";
 
     /**
      * Ftp连接端口
@@ -20,12 +32,12 @@ public class FtpConfig {
     /**
      * Ftp用户名
      */
-    private String userName;
+    private String userName="ftpuser";
 
     /**
      * Ftp密码
      */
-    private String password;
+    private String password="biteyun123.";
 
     /**
      * Ftp连接超时时间
@@ -60,7 +72,7 @@ public class FtpConfig {
     /**
      * Ftp根路径 *
      */
-    private String basePath;
+    private String basePath="/home/ftpuser";
 
     public String getBasePath() {
         return basePath;

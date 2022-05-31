@@ -37,6 +37,7 @@ public class FtpClients {
     public boolean upload(InputStream fileInputStream, String path, String fileName) {
         boolean success = false;
         try {
+            FtpUtli.isFilePath(path);
             FtpUtli.isFileName(fileName);
             if (!FtpUtli.isPath(ftpClient, basePath, path)) {
                 if (!FtpUtli.mkdirPath(ftpClient, basePath, path)) {
@@ -44,7 +45,6 @@ public class FtpClients {
                 }
             }
             success = ftpClient.storeFile(fileName, fileInputStream);
-            fileInputStream.close();
         } catch (FtpException e) {
             throw new FtpException(e.getMessage());
         } catch (IOException e) {
@@ -66,6 +66,7 @@ public class FtpClients {
     public boolean delete(String path, String fileName) {
         boolean success = false;
         try {
+            FtpUtli.isFilePath(path);
             FtpUtli.isFileName(fileName);
             if (!FtpUtli.isPath(ftpClient, basePath, path)) {
                 throw new FtpException("path不存在");
@@ -92,6 +93,6 @@ public class FtpClients {
      * 归还连接到pool
      */
     private void close() {
-        ftpClientPool.returnObject(this.ftpClient);
+            ftpClientPool.returnObject(this.ftpClient);
     }
 }
