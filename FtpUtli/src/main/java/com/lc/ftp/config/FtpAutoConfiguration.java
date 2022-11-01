@@ -1,4 +1,4 @@
-package com.lc.config;
+package com.lc.ftp.config;
 
 import com.lc.ftp.FtpClientFactory;
 import com.lc.ftp.FtpPool;

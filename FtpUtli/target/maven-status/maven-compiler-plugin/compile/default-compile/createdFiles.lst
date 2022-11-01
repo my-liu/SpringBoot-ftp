@@ -1,8 +1,9 @@
-com\lc\ftp\FtpClientPool.class
-com\lc\exception\FtpException.class
-com\lc\exception\FtpPoolException.class
+com\lc\ftp\config\FtpAutoConfiguration.class
+com\lc\ftp\FtpTemplate.class
+com\lc\ftp\utli\FtpUtli.class
+com\lc\ftp\exception\FtpPoolException.class
+com\lc\ftp\config\FtpClientProperties.class
 com\lc\ftp\FtpClientFactory.class
-com\lc\config\FtpPoolConfig.class
-com\lc\utli\FtpUtli.class
-com\lc\ftp\FtpClients.class
-com\lc\config\FtpConfig.class
+com\lc\ftp\FtpPool.class
+com\lc\ftp\config\FtpPoolProperties.class
+com\lc\ftp\exception\FtpException.class

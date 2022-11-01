@@ -1,4 +1,4 @@
-package com.lc.exception;
+package com.lc.ftp.exception;
 
 /**
  * @program: Ftp err  RunErr

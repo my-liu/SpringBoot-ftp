@@ -1,4 +1,4 @@
-package com.lc.config;
+package com.lc.ftp.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

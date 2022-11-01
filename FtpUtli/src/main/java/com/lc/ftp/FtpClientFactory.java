@@ -1,7 +1,7 @@
 package com.lc.ftp;
 
-import com.lc.config.FtpClientProperties;
-import com.lc.exception.FtpPoolException;
+import com.lc.ftp.config.FtpClientProperties;
+import com.lc.ftp.exception.FtpPoolException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.pool2.BasePooledObjectFactory;

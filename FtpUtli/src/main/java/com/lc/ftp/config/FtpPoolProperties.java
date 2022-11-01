@@ -1,4 +1,4 @@
-package com.lc.config;
+package com.lc.ftp.config;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;

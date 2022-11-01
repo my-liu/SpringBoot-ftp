@@ -1,7 +1,7 @@
 package com.lc.ftp;
 
-import com.lc.exception.FtpException;
-import com.lc.utli.FtpUtli;
+import com.lc.ftp.exception.FtpException;
+import com.lc.ftp.utli.FtpUtli;
 import org.apache.commons.net.ftp.FTPClient;
 
 import java.io.IOException;
