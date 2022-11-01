@@ -46,96 +46,63 @@ pool2 		2.9+
 commons-net 3.3+
 ```
 
-#### 4-SpringBoot配置示例
-
-```java
-import com.lc.config.FtpConfig;
-import com.lc.config.FtpPoolConfig;
-import com.lc.ftp.FtpClientFactory;
-import com.lc.ftp.FtpClientPool;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-@Configuration
-public class FtpAllConfig {
-
-    @Bean
-    public FtpConfig ftpConfig() {
-        return new FtpConfig();
-    }
-
-    @Bean
-    public FtpPoolConfig ftpPoolConfig() {
-        return new FtpPoolConfig();
-    }
-
-
-    @Bean
-    public FtpClientPool ftpClientPool(FtpConfig ftpConfig, FtpPoolConfig ftpPoolConfig) {
-        FtpClientPool ftpClientPool=new FtpClientPool(new FtpClientFactory(ftpConfig),ftpPoolConfig,ftpConfig.getBasePath());
-        return ftpClientPool;
-    }
-}
-
-```
-
 #### 5-FtpUtli使用示例
 
 ```java
-import com.lc.ftp.FtpClientPool;
-import com.lc.ftp.FtpClients;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+package com.lc.ftp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.Resource;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-@RestController
-public class FtpController {
+@SpringBootApplication
+public class FtpApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(FtpApplication.class, args);
+    }
 
     @Resource
-    private FtpClientPool ftpClientPool;
+    private FtpTemplate ftpTemplate;
 
     /**
      * 上传图片
+     *
      * @return
      */
-    @GetMapping("upload")
+//    @GetMapping("upload")
     public Boolean upload() {
-        InputStream inputStream= null;
+        InputStream inputStream = null;
         try {
-                inputStream = new FileInputStream("C:\\Users\\win10\\Pictures\\test.jpg");
-
+            inputStream = new FileInputStream("C:\\Users\\win10\\Pictures\\test.jpg");
+            return ftpTemplate.upload(inputStream, "/t", "tests.jpg");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        }
-        FtpClients ftpClients= null;
-        try {
-            ftpClients = ftpClientPool.getFtpClients();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        boolean success = ftpClients.upload(inputStream, "/t","tests.jpg");
-        return success;
+        return false;
     }
+
     /**
      * 删除图片
+     *
      * @return
      */
-    @GetMapping("delete")
+//    @GetMapping("delete")
     public Boolean delete() {
-        FtpClients ftpClients= null;
         try {
-            ftpClients = ftpClientPool.getFtpClients();
+            return ftpTemplate.delete("/t", "tests.jpg");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        boolean success = ftpClients.delete( "/t","tests.jpg");
-        return success;
+        return false;
     }
 }
+
 
 ```
 
