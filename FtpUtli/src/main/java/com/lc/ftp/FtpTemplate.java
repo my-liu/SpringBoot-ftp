@@ -12,18 +12,15 @@ import java.io.InputStream;
  * @Date: 2021/07/31
  * @Author: lc
  */
-public class FtpClients {
+public class FtpTemplate {
 
     private String basePath;
 
-    private FtpClientPool ftpClientPool;
+    private FtpPool<FTPClient> ftpPool;
 
-    private FTPClient ftpClient;
-
-    public FtpClients(String basePath, FTPClient ftpClient, FtpClientPool ftpClientPool) {
+    public FtpTemplate(String basePath, FtpPool ftpPool) {
         this.basePath = basePath;
-        this.ftpClient = ftpClient;
-        this.ftpClientPool = ftpClientPool;
+        this.ftpPool = ftpPool;
     }
 
     /**
@@ -34,9 +31,11 @@ public class FtpClients {
      * @param fileName        文件名称(带后缀)
      * @return
      */
-    public boolean upload(InputStream fileInputStream, String path, String fileName) {
+    public boolean upload(InputStream fileInputStream, String path, String fileName) throws Exception {
         boolean success = false;
+        FTPClient ftpClient = null;
         try {
+            ftpClient = ftpPool.borrowObject();
             FtpUtli.isFilePath(path);
             FtpUtli.isFileName(fileName);
             if (!FtpUtli.isPath(ftpClient, basePath, path)) {
@@ -46,12 +45,12 @@ public class FtpClients {
             }
             success = ftpClient.storeFile(fileName, fileInputStream);
         } catch (FtpException e) {
-            throw new FtpException(e.getMessage());
+            throw e;
         } catch (IOException e) {
-            throw new FtpException("FtpClients 连接异常:" + e.getMessage());
+            throw new FtpException("FtpClients connect err:" + e);
         } finally {
             FtpUtli.disconnect(fileInputStream);
-            this.close();
+            this.close(ftpClient);
         }
         return success;
     }
@@ -63,19 +62,21 @@ public class FtpClients {
      * @param fileName 文件名
      * @return
      */
-    public boolean delete(String path, String fileName) {
+    public boolean delete(String path, String fileName) throws Exception {
         boolean success = false;
+        FTPClient ftpClient = null;
         try {
+            ftpClient = ftpPool.borrowObject();
             FtpUtli.isFilePath(path);
             FtpUtli.isFileName(fileName);
             if (!FtpUtli.isPath(ftpClient, basePath, path)) {
-                throw new FtpException("path不存在");
+                throw new FtpException("path is null");
             }
             ftpClient.enterLocalPassiveMode();
 
             String[] strings = ftpClient.listNames(fileName);
             if (null == strings || strings.length < 1) {
-                throw new FtpException("file不存在");
+                throw new FtpException("file is null");
             }
             success = ftpClient.deleteFile(basePath + "/" + path + "/" + fileName);
 
@@ -84,7 +85,7 @@ public class FtpClients {
         } catch (IOException e) {
             throw new FtpException("FtpClients 连接异常:" + e.getMessage());
         } finally {
-            this.close();
+            this.close(ftpClient);
         }
         return success;
     }
@@ -92,7 +93,10 @@ public class FtpClients {
     /**
      * 归还连接到pool
      */
-    private void close() {
-            ftpClientPool.returnObject(this.ftpClient);
+    private void close(FTPClient ftpClient) {
+        if (ftpClient == null) {
+            return;
+        }
+        ftpPool.returnObject(ftpClient);
     }
 }

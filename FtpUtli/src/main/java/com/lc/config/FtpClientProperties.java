@@ -1,43 +1,39 @@
 package com.lc.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
 /**
  * @program: FtpConfig
  * @Date: 2021/07/31
  * @Author: lc
  */
-public class FtpConfig {
-
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
+@ConfigurationProperties(ignoreUnknownFields = false, prefix = "ftp.client")
+public class FtpClientProperties {
 
     /**
      * 文件服务浏览域名
      */
     private String domain;
+
     /**
      * Ftp连接地址
      */
-    private String host="34.125.19.134";
+    private String host;
 
     /**
      * Ftp连接端口
      */
-    private Integer port = 21;
+    private Integer port;
 
     /**
      * Ftp用户名
      */
-    private String userName="ftpuser";
+    private String loginName;
 
     /**
      * Ftp密码
      */
-    private String password="biteyun123.";
+    private String password;
 
     /**
      * Ftp连接超时时间
@@ -47,7 +43,7 @@ public class FtpConfig {
     /**
      * Ftp字符编码
      */
-    private String controlEncoding = "UTF-8";
+    private String encoding = "UTF-8";
 
     /**
      * Ftp缓冲区大小
@@ -70,16 +66,16 @@ public class FtpConfig {
     private boolean passiveMode = true;
 
     /**
-     * Ftp根路径 *
+     * Ftp服务器存储根路径
      */
-    private String basePath="/home/ftpuser";
+    private String basePath;
 
-    public String getBasePath() {
-        return basePath;
+    public String getDomain() {
+        return domain;
     }
 
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     public String getHost() {
@@ -98,12 +94,12 @@ public class FtpConfig {
         this.port = port;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public String getPassword() {
@@ -122,12 +118,12 @@ public class FtpConfig {
         this.connectTimeOut = connectTimeOut;
     }
 
-    public String getControlEncoding() {
-        return controlEncoding;
+    public String getEncoding() {
+        return encoding;
     }
 
-    public void setControlEncoding(String controlEncoding) {
-        this.controlEncoding = controlEncoding;
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
     public int getBufferSize() {
@@ -162,20 +158,11 @@ public class FtpConfig {
         this.passiveMode = passiveMode;
     }
 
-    @Override
-    public String toString() {
-        return "FtpConfig{" +
-                "host='" + host + '\'' +
-                ", port=" + port +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", connectTimeOut=" + connectTimeOut +
-                ", controlEncoding='" + controlEncoding + '\'' +
-                ", bufferSize=" + bufferSize +
-                ", fileType=" + fileType +
-                ", dataTimeout=" + dataTimeout +
-                ", passiveMode=" + passiveMode +
-                ", basePath='" + basePath + '\'' +
-                '}';
+    public String getBasePath() {
+        return basePath;
+    }
+
+    public void setBasePath(String basePath) {
+        this.basePath = basePath;
     }
 }

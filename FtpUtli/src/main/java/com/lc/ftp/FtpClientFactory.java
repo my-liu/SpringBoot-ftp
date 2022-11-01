@@ -1,6 +1,6 @@
 package com.lc.ftp;
 
-import com.lc.config.FtpConfig;
+import com.lc.config.FtpClientProperties;
 import com.lc.exception.FtpPoolException;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -17,38 +17,38 @@ import java.io.IOException;
  */
 public class FtpClientFactory extends BasePooledObjectFactory<FTPClient> {
 
-    private FtpConfig ftpConfig;
+    private FtpClientProperties ftpClientProperties;
 
-    public FtpClientFactory(FtpConfig ftpConfig) {
-        this.ftpConfig = ftpConfig;
+    public FtpClientFactory(FtpClientProperties ftpClientProperties) {
+        this.ftpClientProperties = ftpClientProperties;
     }
 
 
     @Override
     public FTPClient create() throws Exception {
         FTPClient ftpClient = new FTPClient();
-        ftpClient.setConnectTimeout(ftpConfig.getConnectTimeOut());
+        ftpClient.setConnectTimeout(ftpClientProperties.getConnectTimeOut());
         try {
-            ftpClient.connect(ftpConfig.getHost(), ftpConfig.getPort());
+            ftpClient.connect(ftpClientProperties.getHost(), ftpClientProperties.getPort());
             int reply = ftpClient.getReplyCode();
             if (!FTPReply.isPositiveCompletion(reply)) {
                 ftpClient.disconnect();
-                throw new FtpPoolException("FtpServer 拒绝连接");
+                throw new FtpPoolException("FtpServer Connection refused");
             }
-            boolean result = ftpClient.login(ftpConfig.getUserName(), ftpConfig.getPassword());
+            boolean result = ftpClient.login(ftpClientProperties.getLoginName(), ftpClientProperties.getPassword());
             if (!result) {
-                throw new FtpPoolException("FtpServer 登录失败");
+                throw new FtpPoolException("FtpServer login failure");
             }
 
-            ftpClient.setControlEncoding(ftpConfig.getControlEncoding());
-            ftpClient.setBufferSize(ftpConfig.getBufferSize());
-            ftpClient.setFileType(ftpConfig.getFileType());
-            ftpClient.setDataTimeout(ftpConfig.getDataTimeout());
-            if (ftpConfig.isPassiveMode()) {
+            ftpClient.setControlEncoding(ftpClientProperties.getEncoding());
+            ftpClient.setBufferSize(ftpClientProperties.getBufferSize());
+            ftpClient.setFileType(ftpClientProperties.getFileType());
+            ftpClient.setDataTimeout(ftpClientProperties.getDataTimeout());
+            if (ftpClientProperties.isPassiveMode()) {
                 ftpClient.enterLocalPassiveMode();//进入被动模式
             }
         } catch (IOException e) {
-            throw new FtpPoolException("FtpClients 连接异常:" + e);
+            throw new FtpPoolException("FtpClients err:" + e);
         }
         return ftpClient;
     }

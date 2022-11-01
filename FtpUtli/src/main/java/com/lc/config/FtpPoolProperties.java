@@ -1,6 +1,7 @@
 package com.lc.config;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 
 /**
@@ -8,7 +9,8 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
  * @Date: 2021/08/02
  * @Author: lc
  */
-public class FtpPoolConfig extends GenericObjectPoolConfig {
+@ConfigurationProperties(ignoreUnknownFields = false, prefix = "ftp.pool")
+public class FtpPoolProperties extends GenericObjectPoolConfig {
     /**
      * 连接耗尽时是否阻塞, false报异常,ture阻塞直到超时
      */
