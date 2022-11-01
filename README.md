@@ -11,6 +11,16 @@
 
 #### Ftp yml示例
 
+```yaml
+ftp:
+  client:
+    host: 127.0.0.1
+    login-name: root
+    password: 123456
+    port: 22
+```
+
+
 
 
 #### Ftp使用示例
